@@ -1,4 +1,4 @@
-import matplotlib.pylab as plt
+import matplotlib.pyplot as plt
 import numpy as np
 import random
 
@@ -77,7 +77,7 @@ class Terrain:
         plt.style.use('ggplot')
         plt.rcParams["axes.axisbelow"] = False
 
-        fig = plt.figure(figsize = (5,5))
+        fig = plt.figure(figsize = (7,7))
         ax = fig.add_subplot(111)
 
         ax.pcolormesh(self.board, cmap='gist_earth', zorder=1) 
@@ -89,12 +89,14 @@ class Terrain:
         ax.set_yticks(ticks)
 
         # remove ticks
-        ax.xaxis.set_ticklabels([])
-        ax.yaxis.set_ticklabels([])
-        ax.xaxis.set_ticks_position('none')
-        ax.yaxis.set_ticks_position('none')
+        # ax.xaxis.set_ticklabels([])
+        # # ax.yaxis.set_ticklabels([])
+        # ax.xaxis.set_ticks_position('none')
+        # ax.yaxis.set_ticks_position('none')
 
         ax.set_aspect('equal') #set the x and y axes to the same scale
         ax.invert_yaxis() #invert the y-axis so the first row of data is at the top3
+
+        plt.text(0.5, -0.1, 'Target Location at (%d, %d)' % (self.target[0], self.target[1]), horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
 
         plt.show()
