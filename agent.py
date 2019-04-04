@@ -9,5 +9,11 @@ class Agent:
         self.terrain = Terrain(DIM)
         self.beliefs = np.full((DIM, DIM), (1/DIM))
 
+    def solve(self):
+        # fetch coordinates of highest value in our belief matrix
+        to_check = divmod(self.beliefs.argmax(), self.beliefs.shape[1])
+        self.terrain.search_cell(to_check)
+
+
 if __name__== "__main__":
-    Agent()
+    Agent().solve()

@@ -46,7 +46,7 @@ class Terrain:
 
     # Search cell for target given coordinates. Returns false if cell wasn't found/false negative, true if found.
     def search_cell(self, cell):
-        print("[TERRAIN]  Searching cell with coordinates (%d, %d). Current target is (%d, %d)." % (cell[0], cell[1], self.target[0], self.target[1]))
+        print("\n[TERRAIN]  Searching cell with coordinates (%d, %d). Current target is (%d, %d)." % (cell[0], cell[1], self.target[0], self.target[1]))
 
         # Fetch cell terrain
         cell_terrain = self.board[cell[0]][cell[1]]
