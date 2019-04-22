@@ -46,7 +46,7 @@ class Terrain:
 
     # Search cell for target given coordinates. Returns false if cell wasn't found/false negative, true if found.
     def search_cell(self, cell):
-        print("\n[TERRAIN]  Searching cell with coordinates (%d, %d). Current target is (%d, %d)." % (cell[0], cell[1], self.target[0], self.target[1]))
+        print("[TERRAIN]  Searching cell with coordinates (%d, %d). Current target is (%d, %d)." % (cell[0], cell[1], self.target[0], self.target[1]))
 
         # Fetch cell terrain
         cell_terrain = self.board[cell[0]][cell[1]]
@@ -71,7 +71,23 @@ class Terrain:
                 return True
         else:
             return False
-        
+
+    def get_cell_fn(self, cell):
+        # Fetch cell terrain
+        cell_terrain = self.board[cell[0]][cell[1]]
+
+        # Fetch false neg probabilities for terrain
+        p_fneg=0
+        if cell_terrain is CELL_FLAT:
+            p_fneg = P_FLAT_falseneg
+        elif cell_terrain is CELL_HILLY:
+            p_fneg = P_HILLY_falseneg
+        elif cell_terrain is CELL_FORESTED:
+            p_fneg = P_FORESTED_falseneg
+        else:
+            p_fneg = P_CAVES_falseneg
+
+        return p_fneg
 
     def visualize(self):
         plt.style.use('ggplot')
