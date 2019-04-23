@@ -2,13 +2,25 @@ import numpy as np
 import random
 from environment import Terrain
 
-DIM = 5
+# Dimension of Terrain
+DIM = 10
+
+# RULE=1 when search occurs at cell with the highest probability of _containing_ the target
+# RULE=2 when search occurs at cell with the highest probability of _finding_ the target
+RULE = 1
 
 class Agent:
-    def __init__(self, dim):
+    def __init__(self, dim, rule):
         self.dim = dim
         self.terrain = Terrain(dim)
+
         self.beliefs = np.full((dim, dim), (1/(dim*dim)))
+        if rule is not 1:
+            for row in range(dim):
+                for col in range(dim):
+                    terrain_prob = 1 - self.terrain.get_cell_fn([row,col])
+                    self.beliefs[row][col] = self.beliefs[row][col] * terrain_prob
+
         self.moves = 0
 
     def update_beliefs(self, cell_searched, cell_fn):
@@ -22,7 +34,7 @@ class Agent:
         new_belief = (cell_fn * prev_belief) / ((1-prev_belief) + prev_belief * cell_fn)
 
         # Compute difference in probabilities - will be proportionately distributed among rest of cells
-        belief_difference = new_belief - prev_belief
+        belief_difference = prev_belief - new_belief
 
         # Store new belief at cell location
         self.beliefs[cell_row][cell_col] = new_belief
@@ -57,4 +69,4 @@ class Agent:
             self.solve()
 
 if __name__== "__main__":
-    Agent(DIM).solve()
+    Agent(DIM,RULE).solve()
