@@ -34,6 +34,7 @@ class Terrain:
         self.dim = dim
         self.generate_board()
         self.place_target()
+        self.transition = set()
         print("[TERRAIN]  Board initialized with target located at (%d, %d)." % (self.target[0], self.target[1]))
         self.visualize()
 
