@@ -3,7 +3,7 @@ import random
 from environment import Terrain
 
 # Dimension of Terrain
-DIM = 10
+DIM = 50
 
 # RULE=1 when search occurs at cell with the highest probability of _containing_ the target
 # RULE=2 when search occurs at cell with the highest probability of _finding_ the target
@@ -62,11 +62,23 @@ class Agent:
         # search that cell
         result = self.terrain.search_cell(to_check)
 
-        if result:
-            print("[SOLVER]   Target found at cell (%d, %d). Took %d moves to find." % (to_check[0], to_check[1], self.moves))
-        else:
+        while result is not True:
+            # update beliefs based on existing check
             self.update_beliefs(to_check, to_check_fn)
-            self.solve()
+
+            # update moves counter
+            self.moves += 1
+
+            # fetch coordinates of highest value in our belief matrix
+            to_check = divmod(self.beliefs.argmax(), self.beliefs.shape[1])
+
+            # fetch false neg probability of cell we are searching
+            to_check_fn = self.terrain.get_cell_fn(to_check)
+
+            # search that cell
+            result = self.terrain.search_cell(to_check)
+
+        print("[SOLVER]   Target found at cell (%d, %d). Took %d moves to find." % (to_check[0], to_check[1], self.moves))
 
 if __name__== "__main__":
     Agent(DIM,RULE).solve()
